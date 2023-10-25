@@ -6,6 +6,7 @@ package View;
 
 import Model.Product;
 import Model.ProductDetail;
+import javax.swing.JDialog;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -23,8 +24,10 @@ public class ProductManagementFrm extends javax.swing.JFrame {
         initComponents();
         tableModel = new DefaultTableModel();
         tableModel.addColumn("STT");
+        tableModel.addColumn("Id");
         tableModel.addColumn("Tên");
         tableModel.addColumn("Mô tả");
+        tableModel.addColumn("Số lượng");
 
         tblProduct.setModel(tableModel);
         displayListProduct();
@@ -86,6 +89,11 @@ public class ProductManagementFrm extends javax.swing.JFrame {
                 "STT", "Name", "Price", "Amount"
             }
         ));
+        tblProduct.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblProductMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(tblProduct);
 
         fileMenu.setMnemonic('f');
@@ -194,6 +202,18 @@ public class ProductManagementFrm extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_btnAddActionPerformed
 
+    private void tblProductMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblProductMouseClicked
+        // TODO add your handling code here:
+
+        Product a = new Product(1, "cafe trung nguyên", "cafe khá ngon");
+        a.listProduct.add(new ProductDetail(1, Float.parseFloat("1.6"), "20/1/2023", 1000));
+
+        JDialog jd = new ProductDetailDialog(this, true, a);
+        jd.setLocationRelativeTo(null);
+        jd.setVisible(true);
+
+    }//GEN-LAST:event_tblProductMouseClicked
+
     /**
      * @param args the command line arguments
      */
@@ -233,7 +253,7 @@ public class ProductManagementFrm extends javax.swing.JFrame {
         Product a = new Product(1, "cafe trung nguyên", "cafe khá ngon");
         a.listProduct.add(new ProductDetail(1, Float.parseFloat("1.6"), "20/1/2023", 1000));
 
-        Object[] dt = {1, a.getName(), a.getListProduct().get(0).getAmount()};
+        Object[] dt = {1,a.getId() ,a.getName(), a.getDescribe(), a.getListProduct().get(0).getAmount()};
         tableModel.addRow(dt);
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
