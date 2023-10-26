@@ -4,7 +4,6 @@
  */
 package Model;
 
-import java.util.ArrayList;
 
 /**
  *
@@ -14,22 +13,29 @@ public class Product {
     private int id;
     public String name;
     private String describe;
-    public ArrayList<ProductDetail> listProduct;
+    private int amount;
     public Product() {
-        listProduct = new ArrayList<>();
     }
-    public Product(int id, String name, String describe, ArrayList<ProductDetail> listProduct) {
-        this.id = id;
-        this.name = name;
-        this.describe = describe;
-        this.listProduct = listProduct;
-    }
-
     public Product(int id, String name, String describe) {
         this.id = id;
         this.name = name;
         this.describe = describe;
-        listProduct = new ArrayList<>();
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setDescribe(String describe) {
+        this.describe = describe;
+    }
+
+    public void setAmount(int amount) {
+        this.amount = amount;
     }
     
 
@@ -45,15 +51,8 @@ public class Product {
         return describe;
     }
 
-    public ArrayList<ProductDetail> getListProduct() {
-        return listProduct;
-    }
     
     public int getAmount(){
-        int amount = 0;
-        for(ProductDetail i : listProduct){
-            amount+= i.getAmount();
-        }
         return amount;
     }
     

@@ -5,7 +5,7 @@
 package View;
 
 import Model.Product;
-import Model.ProductDetail;
+//import Model.ProductDetail;
 import javax.swing.JDialog;
 import javax.swing.table.DefaultTableModel;
 
@@ -206,7 +206,7 @@ public class ProductManagementFrm extends javax.swing.JFrame {
         // TODO add your handling code here:
 
         Product a = new Product(1, "cafe trung nguyên", "cafe khá ngon");
-        a.listProduct.add(new ProductDetail(1, Float.parseFloat("1.6"), "20/1/2023", 1000));
+//        a.listProduct.add(new ProductDetail(1, Float.parseFloat("1.6"), "20/1/2023", 1000));
 
         JDialog jd = new ProductDetailDialog(this, true, a);
         jd.setLocationRelativeTo(null);
@@ -251,9 +251,9 @@ public class ProductManagementFrm extends javax.swing.JFrame {
 
     private void displayListProduct() {
         Product a = new Product(1, "cafe trung nguyên", "cafe khá ngon");
-        a.listProduct.add(new ProductDetail(1, Float.parseFloat("1.6"), "20/1/2023", 1000));
+//        a.listProduct.add(new ProductDetail(1, Float.parseFloat("1.6"), "20/1/2023", 1000));
 
-        Object[] dt = {1,a.getId() ,a.getName(), a.getDescribe(), a.getListProduct().get(0).getAmount()};
+        Object[] dt = {1,a.getId() ,a.getName(), a.getDescribe(),a.getAmount()};
         tableModel.addRow(dt);
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables

@@ -5,7 +5,6 @@
 package View;
 
 import Model.Product;
-import Model.ProductDetail;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 
@@ -19,20 +18,20 @@ public class ProductDetailDialog extends javax.swing.JDialog {
      * Creates new form ProductDetailDialog
      */
     Product p ;
-    DefaultTableModel tableModel;
+//    DefaultTableModel tableModel;
     public ProductDetailDialog(java.awt.Frame parent, boolean modal,Product p) {
         super(parent, modal);
         this.p = p;
         initComponents();
-        tableModel = new DefaultTableModel();
-        tableModel.addColumn("STT");
-        tableModel.addColumn("Mã vạch");
-        tableModel.addColumn("Giá");
-        tableModel.addColumn("Hạn sử dụng");
-        tableModel.addColumn("Số lượng");
-
-        tblProductDetail.setModel(tableModel);
-        
+//        tableModel = new DefaultTableModel();
+//        tableModel.addColumn("STT");
+//        tableModel.addColumn("Mã vạch");
+//        tableModel.addColumn("Giá");
+//        tableModel.addColumn("Hạn sử dụng");
+//        tableModel.addColumn("Số lượng");
+//
+////        tblProductDetail.setModel(tableModel);
+//        
         txtProductId.setText(p.getId()+"");
         txtProductName.setText(p.getName());
         txtProductDescribe.setText(p.getDescribe());
@@ -59,11 +58,11 @@ public class ProductDetailDialog extends javax.swing.JDialog {
         txtProductDescribe = new javax.swing.JTextField();
         txtProductAmount = new javax.swing.JTextField();
         jSeparator1 = new javax.swing.JSeparator();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        tblProductDetail = new javax.swing.JTable();
         jSeparator2 = new javax.swing.JSeparator();
         btnSave = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
+        jLabel5 = new javax.swing.JLabel();
+        jTextField1 = new javax.swing.JTextField();
 
         jButton1.setText("jButton1");
 
@@ -77,19 +76,6 @@ public class ProductDetailDialog extends javax.swing.JDialog {
 
         jLabel4.setText("Tổng Số lượng:");
 
-        tblProductDetail.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null}
-            },
-            new String [] {
-                "STT", "Mã vạch", "Giá", "Hạn sử dụng", "Số lượng"
-            }
-        ));
-        jScrollPane1.setViewportView(tblProductDetail);
-
         btnSave.setText("Save");
         btnSave.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -98,6 +84,8 @@ public class ProductDetailDialog extends javax.swing.JDialog {
         });
 
         jButton2.setText("Delete");
+
+        jLabel5.setText("Giá:");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -109,27 +97,25 @@ public class ProductDetailDialog extends javax.swing.JDialog {
                     .addComponent(jSeparator1)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jScrollPane1)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel1)
-                                    .addComponent(jLabel2)
-                                    .addComponent(jLabel3)
-                                    .addComponent(jLabel4))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(txtProductId)
-                                    .addComponent(txtProductName)
-                                    .addComponent(txtProductDescribe)
-                                    .addComponent(txtProductAmount, javax.swing.GroupLayout.DEFAULT_SIZE, 248, Short.MAX_VALUE))
-                                .addGap(0, 225, Short.MAX_VALUE)))
-                        .addContainerGap())
+                            .addComponent(jLabel1)
+                            .addComponent(jLabel2)
+                            .addComponent(jLabel3)
+                            .addComponent(jLabel4)
+                            .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(txtProductId)
+                            .addComponent(txtProductName)
+                            .addComponent(txtProductDescribe)
+                            .addComponent(txtProductAmount, javax.swing.GroupLayout.DEFAULT_SIZE, 248, Short.MAX_VALUE)
+                            .addComponent(jTextField1))
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addComponent(jSeparator2, javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(btnSave)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jButton2)
-                        .addGap(0, 417, Short.MAX_VALUE))))
+                        .addGap(0, 397, Short.MAX_VALUE))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -150,6 +136,10 @@ public class ProductDetailDialog extends javax.swing.JDialog {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel4)
                     .addComponent(txtProductAmount, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel5)
+                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(3, 3, 3)
@@ -158,9 +148,7 @@ public class ProductDetailDialog extends javax.swing.JDialog {
                     .addComponent(jButton2))
                 .addGap(18, 18, 18)
                 .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 221, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(17, Short.MAX_VALUE))
+                .addContainerGap(16, Short.MAX_VALUE))
         );
 
         pack();
@@ -176,10 +164,10 @@ public class ProductDetailDialog extends javax.swing.JDialog {
     
     private void displayListProductDetail() {
         int stt = 1;
-        for(ProductDetail i : this.p.getListProduct()){
-            Object[] row = {stt++,i.getId(),i.getPrice(),i.getDate(),i.getAmount()};
-            tableModel.addRow(row);
-        }
+//        for(ProductDetail i : this.p.getListProduct()){
+//            Object[] row = {stt++,i.getId(),i.getPrice(),i.getDate(),i.getAmount()};
+//            tableModel.addRow(row);
+//        }
     }
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
@@ -228,10 +216,10 @@ public class ProductDetailDialog extends javax.swing.JDialog {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
-    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JLabel jLabel5;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator2;
-    private javax.swing.JTable tblProductDetail;
+    private javax.swing.JTextField jTextField1;
     private javax.swing.JTextField txtProductAmount;
     private javax.swing.JTextField txtProductDescribe;
     private javax.swing.JTextField txtProductId;
