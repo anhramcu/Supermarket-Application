@@ -4,8 +4,12 @@ Controller\SaleDAO.class
 View\ProductDetailDialog.class
 View\ProductDetailDialog$2$1.class
 View\ProductManagementFrm$3.class
+View\AddProductDialog$2$1.class
+View\AddProductDialog$1.class
 View\ProductManagementFrm$2.class
+View\AddProductDialog.class
 View\ProductManagementFrm$4.class
+View\AddProductDialog$2.class
 View\ProductManagementFrm$1.class
 View\SaleFrm.class
 View\ProductDetailDialog$1.class

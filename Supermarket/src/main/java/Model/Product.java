@@ -14,6 +14,7 @@ public class Product {
     public String name;
     private String describe;
     private int amount;
+    private float price;
     public Product() {
     }
     public Product(int id, String name, String describe) {
@@ -36,6 +37,14 @@ public class Product {
 
     public void setAmount(int amount) {
         this.amount = amount;
+    }
+
+    public float getPrice() {
+        return price;
+    }
+
+    public void setPrice(float price) {
+        this.price = price;
     }
     
 

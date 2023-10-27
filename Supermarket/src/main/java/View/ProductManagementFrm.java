@@ -199,7 +199,10 @@ public class ProductManagementFrm extends javax.swing.JFrame {
     }//GEN-LAST:event_btnSearchActionPerformed
 
     private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
-        // TODO add your handling code here:
+
+        JDialog jd = new AddProductDialog(this, true);
+        jd.setLocationRelativeTo(null);
+        jd.setVisible(true);
     }//GEN-LAST:event_btnAddActionPerformed
 
     private void tblProductMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblProductMouseClicked
