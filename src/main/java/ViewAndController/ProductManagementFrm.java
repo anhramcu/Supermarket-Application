@@ -215,7 +215,7 @@ public class ProductManagementFrm extends javax.swing.JFrame {
     }//GEN-LAST:event_btnSearchActionPerformed
 
     private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
-        this.dispose();
+
         JDialog jd = new AddProductDialog(this, true);
         jd.setLocationRelativeTo(null);
         jd.setVisible(true);

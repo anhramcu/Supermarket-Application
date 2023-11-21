@@ -4,19 +4,24 @@
  */
 package ViewAndController;
 
+import Model.Casher;
+import Model.DAO.OrderDAO;
 import Model.DAO.ProductDAO;
-import Model.Product;
+import Model.Order;
 
 /**
  *
  * @author binh
  */
 public class testAPI {
-
+    
     public static void main(String args[]) {
-
-        Product a = new Product(1, "cafe trung nguyên2", "cafe khá ngon", 1000, Float.parseFloat("5.500"));
-
-        System.out.println(ProductDAO.getInstance().addProduct(a));
+        
+        Casher c = new Casher();
+        Order o = new Order(c, null);
+        
+        c.setId(2);
+        o.setId(OrderDAO.getInstance().addOrder(o));
+        System.out.println(o.getId());
     }
 }

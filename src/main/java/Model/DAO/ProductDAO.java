@@ -125,4 +125,21 @@ public class ProductDAO extends DAO {
         }
         return list;
     }
+
+    public Product GetProductById(Product a) {
+        Connection con = openConnection();
+        System.out.println("search product by id :" + a.getId());
+        try {
+            PreparedStatement pstmt = con.prepareStatement("SELECT * FROM tblproduct where id = ?");
+            pstmt.setInt(1, a.getId());
+            ResultSet rs = pstmt.executeQuery();
+            if (rs.next()) {
+                Product p = new Product(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getInt(4), rs.getFloat(5));
+                return p;
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(ProductDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
+    }
 }
