@@ -28,6 +28,11 @@ public class Order {
         this.customer = customer;
     }
 
+    public Order(int id, String time) {
+        this.id = id;
+        this.time = time;
+    }
+
     public Order(int id, String time, Casher casher, CloseCustomer customer, List<OrderDetail> listOrderDetail) {
         this.id = id;
         this.time = time;

@@ -9,6 +9,7 @@ package Model;
  * @author binh
  */
 public class OrderDetail {
+
     private int id;
     private Product p;
     private float price;
@@ -22,10 +23,15 @@ public class OrderDetail {
         this.p = p;
         this.amount = amount;
         price = p.getPrice();
-        
     }
 
-    
+    public OrderDetail(int id, Product p, float price, int amount) {
+        this.id = id;
+        this.p = p;
+        this.price = price;
+        this.amount = amount;
+    }
+
     public OrderDetail(int id, Product p, float price, int amount, Order order) {
         this.id = id;
         this.p = p;
@@ -73,5 +79,5 @@ public class OrderDetail {
     public Order getOrder() {
         return order;
     }
-    
+
 }

@@ -4,24 +4,19 @@
  */
 package ViewAndController;
 
-import Model.Casher;
-import Model.DAO.OrderDAO;
-import Model.DAO.ProductDAO;
-import Model.Order;
+import Model.CustomerSatistic;
+import Model.DAO.CustomerSatisticDAO;
+import java.time.LocalDateTime;
+import java.util.List;
 
 /**
  *
  * @author binh
  */
 public class testAPI {
-    
+
     public static void main(String args[]) {
-        
-        Casher c = new Casher();
-        Order o = new Order(c, null);
-        
-        c.setId(2);
-        o.setId(OrderDAO.getInstance().addOrder(o));
-        System.out.println(o.getId());
+        List<CustomerSatistic> c = CustomerSatisticDAO.getInstance().getListCustomerByTime(LocalDateTime.now(), LocalDateTime.now());
+        System.out.println(c.size());
     }
 }

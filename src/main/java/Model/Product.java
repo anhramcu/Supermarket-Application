@@ -19,6 +19,10 @@ public class Product {
     public Product() {
     }
 
+    public Product(String name) {
+        this.name = name;
+    }
+
     public Product(int id, String name, String describe) {
         this.id = id;
         this.name = name;

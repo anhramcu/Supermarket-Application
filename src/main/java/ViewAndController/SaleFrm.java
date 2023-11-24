@@ -31,22 +31,22 @@ public class SaleFrm extends javax.swing.JFrame {
     ArrayList<OrderDetail> OrderDetails = new ArrayList<>();
     int rowSelected;
     Casher casher;
-    
+
     public SaleFrm(Casher casher) {
         initComponents();
         this.casher = casher;
-        
+
         tableModel = new DefaultTableModel();
         tableModel.addColumn("STT");
         tableModel.addColumn("Tên");
         tableModel.addColumn("Giá");
         tableModel.addColumn("Số Lượng");
         tableModel.addColumn("Thành Tiền");
-        
+
         tblOrderDetail.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         tblOrderDetail.setModel(tableModel);
         tblOrderDetail.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
-        
+
         txtTotal.setEditable(false);
         txtEmployeeName.setEditable(false);
     }
@@ -325,27 +325,30 @@ public class SaleFrm extends javax.swing.JFrame {
         // TODO add your handling code here:
         int pId = Integer.parseInt(txtProductCode.getText());
         int pAmount = Integer.parseInt(txtProductQuantity.getText());
-        
-        Product i = ProductDAO.getInstance().GetProductById(new Product(pId));
-        for (OrderDetail j : OrderDetails) {// check product exist
-            if (j.getP().getId() == i.getId()) {
-                if (j.getP().getAmount() >= j.getAmount() + pAmount) {
-                    j.setAmount(j.getAmount() + pAmount);
-                    displayListOrderDetail();
+        try {
+            Product i = ProductDAO.getInstance().GetProductById(new Product(pId));
+            for (OrderDetail j : OrderDetails) {// check product exist
+                if (j.getP().getId() == i.getId()) {
+                    if (j.getP().getAmount() >= j.getAmount() + pAmount) {
+                        j.setAmount(j.getAmount() + pAmount);
+                        displayListOrderDetail();
+                        return;
+                    }
+                    System.out.println("amount of product is over");
                     return;
                 }
+            }
+            if (i.getAmount() < pAmount) {
                 System.out.println("amount of product is over");
                 return;
             }
+
+            OrderDetails.add(new OrderDetail(i, pAmount));
+
+            displayListOrderDetail();
+        } catch (Exception e) {
+            System.out.println("No Product Info !!! ");
         }
-        if (i.getAmount() < pAmount) {
-            System.out.println("amount of product is over");
-            return;
-        }
-        
-        OrderDetails.add(new OrderDetail(i, pAmount));
-        
-        displayListOrderDetail();
 
     }//GEN-LAST:event_btnUpdateActionPerformed
 
@@ -360,7 +363,7 @@ public class SaleFrm extends javax.swing.JFrame {
         o.setId(OrderDAO.getInstance().addOrder(o));
         o.setListOrderDetail(OrderDetails);
         OrderDetailDAO.getInstance().saveListOrderDetail(o);
-        
+
         clearAllUserInput();
 
     }//GEN-LAST:event_btnPayActionPerformed
@@ -371,9 +374,9 @@ public class SaleFrm extends javax.swing.JFrame {
         rowSelected = tblOrderDetail.getSelectedRow();
         txtProductCode.setText(OrderDetails.get(rowSelected).getP().getId() + "");
         txtProductQuantity.setText(OrderDetails.get(rowSelected).getAmount() + "");
-        
+
         btnDelete.setEnabled(true);
-        
+
 
     }//GEN-LAST:event_tblOrderDetailMouseClicked
 
@@ -396,23 +399,26 @@ public class SaleFrm extends javax.swing.JFrame {
             CloseCustomer cus = new CloseCustomer();
             cus.setId(Integer.parseInt(txtCustomerCode.getText()));
             CloseCustomer c = CloseCustomerDAO.getInstance().getCloseCustomerById(cus);
-            
+
             if (c != null) {
                 txtCustomerName.setText(c.getName());
             } else {
-                txtCustomerName.setText("");
+                txtCustomerName.setText("NO DATA !!!");
             }
         } catch (NumberFormatException e) {
-            txtCustomerName.setText("");
+            if (!"".equals(txtCustomerCode.getText())) {
+                txtCustomerName.setText("");
+            }
+            txtCustomerName.setText("Wrong Format");
         }
 
     }//GEN-LAST:event_txtCustomerCodeCaretUpdate
-    
+
     private void clearProductInfor() {
         txtProductCode.setText("");
         txtProductQuantity.setText("");
     }
-    
+
     private void clearAllUserInput() {
         tableModel.setRowCount(0);
         txtProductCode.setText("");
@@ -422,9 +428,9 @@ public class SaleFrm extends javax.swing.JFrame {
         btnDelete.setEnabled(false);
         btnPay.setEnabled(false);
     }
-    
+
     private void displayListOrderDetail() {
-        
+
         tableModel.setRowCount(0);
         int count = 1;
         rowSelected = OrderDetails.size() - 1;
@@ -437,7 +443,7 @@ public class SaleFrm extends javax.swing.JFrame {
         txtTotal.setText(total + "");
         tblOrderDetail.clearSelection();
         if (tableModel.getRowCount() > 0) {
-            
+
             tblOrderDetail.setRowSelectionInterval(0, rowSelected);
             txtProductCode.setText(OrderDetails.get(rowSelected).getP().getId() + "");
             txtProductQuantity.setText(OrderDetails.get(rowSelected).getAmount() + "");
@@ -463,21 +469,21 @@ public class SaleFrm extends javax.swing.JFrame {
                 if ("Nimbus".equals(info.getName())) {
                     javax.swing.UIManager.setLookAndFeel(info.getClassName());
                     break;
-                    
+
                 }
             }
         } catch (ClassNotFoundException ex) {
             java.util.logging.Logger.getLogger(SaleFrm.class
                     .getName()).log(java.util.logging.Level.SEVERE, null, ex);
-            
+
         } catch (InstantiationException ex) {
             java.util.logging.Logger.getLogger(SaleFrm.class
                     .getName()).log(java.util.logging.Level.SEVERE, null, ex);
-            
+
         } catch (IllegalAccessException ex) {
             java.util.logging.Logger.getLogger(SaleFrm.class
                     .getName()).log(java.util.logging.Level.SEVERE, null, ex);
-            
+
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
             java.util.logging.Logger.getLogger(SaleFrm.class
                     .getName()).log(java.util.logging.Level.SEVERE, null, ex);
