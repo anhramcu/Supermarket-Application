@@ -64,7 +64,12 @@ public class Order {
     public int getId() {
         return id;
     }
-
+    public float getTotal(){
+        float sum = 0;
+        for(OrderDetail i : listOrderDetail)
+            sum+=i.getAmount()*i.getPrice();
+        return sum;
+    }
     public String getTime() {
         return time;
     }

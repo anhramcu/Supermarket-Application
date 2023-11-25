@@ -19,6 +19,10 @@ public class Employee extends Member {
         this.role = role;
     }
 
+    public Employee(int id, String name) {
+        super(id, name);
+    }
+
     public Employee(int id, String username, String password, String name, String address, String email, String gender, String phone) {
         super(id, username, password, name, address, email, gender, phone);
     }

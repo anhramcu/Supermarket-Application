@@ -11,8 +11,9 @@ import java.util.ArrayList;
  * @author binh
  */
 public class CustomerSatistic extends CloseCustomer {
-    private float  total;
-    private ArrayList<Order> listOrder;
+
+    private float total;
+    private ArrayList<Order> listOrder = new ArrayList<>();
 
     public CustomerSatistic(float total, ArrayList<Order> listOrder) {
         this.total = total;
@@ -25,9 +26,11 @@ public class CustomerSatistic extends CloseCustomer {
     public CustomerSatistic(int point, int id, String username, String password, String name, String address, String email, String gender, String phone) {
         super(point, id, username, password, name, address, email, gender, phone);
     }
-    
 
     public float getTotal() {
+        for (Order i : listOrder) {
+            total += i.getTotal();
+        }
         return total;
     }
 
@@ -51,6 +54,4 @@ public class CustomerSatistic extends CloseCustomer {
         this.point = point;
     }
 
-    
-    
 }

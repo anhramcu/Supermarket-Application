@@ -5,7 +5,10 @@
 package ViewAndController;
 
 import Model.CustomerSatistic;
+import Model.DAO.CustomerSatisticDAO;
+import java.time.ZoneId;
 import java.util.ArrayList;
+import javax.swing.JDialog;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -20,7 +23,8 @@ public class CustomerStatisticByIncome extends javax.swing.JFrame {
     String from = "";
     String to = "";
     DefaultTableModel tableModel;
-    ArrayList<CustomerSatistic> Products;
+    ArrayList<CustomerSatistic> listCustomerSatistic;
+    ArrayList<CustomerSatistic> listCustomerSatisticSearched;
 
     public CustomerStatisticByIncome() {
         initComponents();
@@ -42,7 +46,7 @@ public class CustomerStatisticByIncome extends javax.swing.JFrame {
     private void initComponents() {
 
         btnSearch = new javax.swing.JButton();
-        txtCustomerName = new javax.swing.JTextField();
+        txtSearch = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
         tblCustomerSatistic = new javax.swing.JTable();
         jLabel1 = new javax.swing.JLabel();
@@ -69,8 +73,18 @@ public class CustomerStatisticByIncome extends javax.swing.JFrame {
 
         btnSearch.setText("Search");
         btnSearch.setEnabled(false);
+        btnSearch.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSearchActionPerformed(evt);
+            }
+        });
 
-        txtCustomerName.setEnabled(false);
+        txtSearch.setEnabled(false);
+        txtSearch.addCaretListener(new javax.swing.event.CaretListener() {
+            public void caretUpdate(javax.swing.event.CaretEvent evt) {
+                txtSearchCaretUpdate(evt);
+            }
+        });
 
         tblCustomerSatistic.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -83,6 +97,13 @@ public class CustomerStatisticByIncome extends javax.swing.JFrame {
                 "STT", "Name", "Total"
             }
         ));
+        tblCustomerSatistic.setEditingColumn(0);
+        tblCustomerSatistic.setEditingRow(0);
+        tblCustomerSatistic.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblCustomerSatisticMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(tblCustomerSatistic);
 
         jLabel1.setText("From:");
@@ -180,7 +201,7 @@ public class CustomerStatisticByIncome extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addContainerGap()
-                        .addComponent(txtCustomerName)
+                        .addComponent(txtSearch)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnSearch))
                     .addComponent(jScrollPane1)
@@ -203,7 +224,7 @@ public class CustomerStatisticByIncome extends javax.swing.JFrame {
                 .addGap(17, 17, 17)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnSearch)
-                    .addComponent(txtCustomerName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtSearch, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -233,14 +254,44 @@ public class CustomerStatisticByIncome extends javax.swing.JFrame {
     private void txtFromPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_txtFromPropertyChange
         // TODO add your handling code here:
         if (printNotification()) {
-
+            from = txtFrom.getDate().toString();
+            to = txtFrom.getDate().toString();
         }
     }//GEN-LAST:event_txtFromPropertyChange
 
     private void txtToPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_txtToPropertyChange
-        // TODO add your handling code here:
-        printNotification();
+
+        if (printNotification()) {
+            displayCustomerSatisticTable();
+        }
     }//GEN-LAST:event_txtToPropertyChange
+
+    private void tblCustomerSatisticMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblCustomerSatisticMouseClicked
+        // TODO add your handling code here:
+        int row = tblCustomerSatistic.getSelectedRow();
+        System.out.println("row selected is " + row);
+        JDialog jd = new CustomerSatisticDetail(this, true, listCustomerSatistic.get(row));
+        jd.setLocationRelativeTo(null);
+        jd.setVisible(true);
+    }//GEN-LAST:event_tblCustomerSatisticMouseClicked
+
+    private void btnSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSearchActionPerformed
+        // TODO add your handling code here:
+        if (!txtSearch.getText().isEmpty()) {
+            for (CustomerSatistic i : listCustomerSatistic) {
+                if (i.getName().contains(txtSearch.getText())) {
+                    listCustomerSatisticSearched.add(i);
+                }
+            }
+            displaySearchedTable();
+        }
+    }//GEN-LAST:event_btnSearchActionPerformed
+
+    private void txtSearchCaretUpdate(javax.swing.event.CaretEvent evt) {//GEN-FIRST:event_txtSearchCaretUpdate
+        // TODO add your handling code here:
+        if (txtSearch.getText().isEmpty())
+            displayCustomerSatisticTable();
+    }//GEN-LAST:event_txtSearchCaretUpdate
     private boolean printNotification() {
         try {
             if (txtFrom.getDate().after(txtTo.getDate())) {
@@ -248,12 +299,40 @@ public class CustomerStatisticByIncome extends javax.swing.JFrame {
                 return false;
             }
             txtNotification.setText("");
+            txtSearch.setEnabled(true);
+            btnSearch.setEnabled(true);
+
             return true;
 
         } catch (Exception e) {
             txtNotification.setText("");
             return false;
         }
+    }
+
+    private void displaySearchedTable() {
+        tableModel.setRowCount(0);
+        int stt = 1;
+        for (CustomerSatistic i : listCustomerSatisticSearched) {
+
+            Object[] dt = {stt++, i.getName(), i.getTotal()};
+            tableModel.addRow(dt);
+        }
+    }
+
+    private void displayCustomerSatisticTable() {
+        tableModel.setRowCount(0);
+        listCustomerSatistic = CustomerSatisticDAO.getInstance()
+                .getListCustomerByTime(txtFrom.getDate().toInstant()
+                        .atZone(ZoneId.systemDefault())
+                        .toLocalDateTime(), txtTo.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime());
+        int stt = 1;
+        for (CustomerSatistic i : listCustomerSatistic) {
+
+            Object[] dt = {stt++, i.getName(), i.getTotal()};
+            tableModel.addRow(dt);
+        }
+
     }
 
     /**
@@ -314,9 +393,9 @@ public class CustomerStatisticByIncome extends javax.swing.JFrame {
     private javax.swing.JMenuItem saveAsMenuItem;
     private javax.swing.JMenuItem saveMenuItem;
     private javax.swing.JTable tblCustomerSatistic;
-    private javax.swing.JTextField txtCustomerName;
     private com.toedter.calendar.JDateChooser txtFrom;
     private javax.swing.JLabel txtNotification;
+    private javax.swing.JTextField txtSearch;
     private com.toedter.calendar.JDateChooser txtTo;
     // End of variables declaration//GEN-END:variables
 

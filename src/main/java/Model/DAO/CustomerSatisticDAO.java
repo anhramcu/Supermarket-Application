@@ -39,16 +39,18 @@ public class CustomerSatisticDAO {
     }
 
     public ArrayList<CustomerSatistic> getListCustomerByTime(LocalDateTime from, LocalDateTime to) {
+        System.out.println("satistic from" + from.getHour() + " to " + to.getHour());
+
         ArrayList<CustomerSatistic> list = new ArrayList<>();
         Connection con = openConnection();
         try {
             PreparedStatement pstmt
                     = con.prepareStatement("""
-                                           SELECT o.time, c.point,m.id,m.usename,m.password,m.name,m.address,m.address,
+                                           SELECT o.id,o.time, c.point,m.id,m.username,m.password,m.name,m.address,m.address,
                                                     m.gender,m.phone,od.id,p.name,od.amount,p.price 
                                            FROM tblorder as o 
                                            Inner join tblclosecustomer as c  
-                                                on o.time <= ? and o.time <= ? 
+                                                on o.time >= ? and o.time <= ? 
                                                     and tblCloseCustomerid  = c.tblmemberid  
                                            inner join tblmember as m on c.tblmemberid = m.id
                                            inner join tblorderdetail as od 
@@ -59,18 +61,27 @@ public class CustomerSatisticDAO {
             pstmt.setTimestamp(2, Timestamp.valueOf(to));
             ResultSet rs = pstmt.executeQuery();
             while (rs.next()) {
-                System.out.println("found");
-                CustomerSatistic cs = new CustomerSatistic(rs.getInt(2), rs.getInt(3), rs.getString(4), rs.getString(5), rs.getString(6),
-                        rs.getString(7), rs.getString(8), rs.getString(9), rs.getString(10));
+                CustomerSatistic cs = new CustomerSatistic(rs.getInt(3), rs.getInt(4), rs.getString(5), rs.getString(6), rs.getString(7),
+                        rs.getString(8), rs.getString(9), rs.getString(10), rs.getString(11));
+                if (list.isEmpty()) {
+                    ArrayList<Order> lOrder = cs.getListOrder();
+                    Order x = new Order(rs.getInt(1), rs.getTimestamp(2).toString());
+                    List<OrderDetail> od = new ArrayList<>();
+                    od.add(new OrderDetail(rs.getInt(12), new Product(rs.getString(13)), rs.getFloat(15), rs.getInt(14)));
+                    x.setListOrderDetail(od);
+                    lOrder.add(x);
+                    cs.setListOrder(lOrder);
+                    list.add(cs);
+
+                }
                 for (int i = 0; i < list.size(); i++) {
                     if (list.get(i).getId() == cs.getId()) {
-                        System.out.println("found in Arr");
                         ArrayList<Order> o = list.get(i).getListOrder();
                         for (int j = 0; j < o.size(); j++) {// check and add orderDetail if order allredy exists
                             if (o.get(j).getId() == rs.getInt(1)) {
                                 List<OrderDetail> od = o.get(j).getListOrderDetail();
                                 Order x = o.get(j);
-                                od.add(new OrderDetail(rs.getInt(11), new Product(rs.getString(12)), rs.getFloat(14), rs.getInt(13)));
+                                od.add(new OrderDetail(rs.getInt(12), new Product(rs.getString(13)), rs.getFloat(15), rs.getInt(14)));
                                 x.setListOrderDetail(od);
                                 o.set(j, x);
                                 break;
@@ -78,17 +89,18 @@ public class CustomerSatisticDAO {
                             if (j == o.size() - 1) {// Create new Order if order is not exitst
                                 Order x = new Order(rs.getInt(1), rs.getTimestamp(2).toString());
                                 List<OrderDetail> od = new ArrayList<>();
-                                od.add(new OrderDetail(rs.getInt(11), new Product(rs.getString(12)), rs.getFloat(14), rs.getInt(13)));
+                                od.add(new OrderDetail(rs.getInt(12), new Product(rs.getString(13)), rs.getFloat(15), rs.getInt(14)));
                                 x.setListOrderDetail(od);
                             }
                         }
                         break;
                     }
                     if (i == list.size() - 1) {// create new CloseCustomerSatistic
+                        System.out.println("create new");
                         ArrayList<Order> lOrder = cs.getListOrder();
                         Order x = new Order(rs.getInt(1), rs.getTimestamp(2).toString());
                         List<OrderDetail> od = new ArrayList<>();
-                        od.add(new OrderDetail(rs.getInt(11), new Product(rs.getString(12)), rs.getFloat(14), rs.getInt(13)));
+                        od.add(new OrderDetail(rs.getInt(12), new Product(rs.getString(13)), rs.getFloat(15), rs.getInt(14)));
                         x.setListOrderDetail(od);
                         lOrder.add(x);
                         cs.setListOrder(lOrder);
@@ -99,6 +111,7 @@ public class CustomerSatisticDAO {
         } catch (SQLException ex) {
             Logger.getLogger(ProductDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
+        System.out.println("found: " + list.size());
         return list;
     }
 }

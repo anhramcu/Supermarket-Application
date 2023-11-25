@@ -42,6 +42,7 @@ public class SaleFrm extends javax.swing.JFrame {
         tableModel.addColumn("Giá");
         tableModel.addColumn("Số Lượng");
         tableModel.addColumn("Thành Tiền");
+        txtEmployeeName.setText(casher.getName());
 
         tblOrderDetail.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         tblOrderDetail.setModel(tableModel);
@@ -406,10 +407,11 @@ public class SaleFrm extends javax.swing.JFrame {
                 txtCustomerName.setText("NO DATA !!!");
             }
         } catch (NumberFormatException e) {
-            if (!"".equals(txtCustomerCode.getText())) {
+            if (txtCustomerCode.getText().isBlank()) {
                 txtCustomerName.setText("");
+            } else {
+                txtCustomerName.setText("Wrong Format");
             }
-            txtCustomerName.setText("Wrong Format");
         }
 
     }//GEN-LAST:event_txtCustomerCodeCaretUpdate

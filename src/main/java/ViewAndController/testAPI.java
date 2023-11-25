@@ -6,6 +6,7 @@ package ViewAndController;
 
 import Model.CustomerSatistic;
 import Model.DAO.CustomerSatisticDAO;
+import Model.Order;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -17,6 +18,8 @@ public class testAPI {
 
     public static void main(String args[]) {
         List<CustomerSatistic> c = CustomerSatisticDAO.getInstance().getListCustomerByTime(LocalDateTime.now(), LocalDateTime.now());
-        System.out.println(c.size());
+        for(Order i : c.get(0).getListOrder()){
+            System.out.println(i.getListOrderDetail().size());
+        }
     }
 }

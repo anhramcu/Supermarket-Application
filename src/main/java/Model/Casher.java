@@ -13,6 +13,11 @@ public class Casher extends Employee {
     public Casher() {
     }
 
+    public Casher(Member mem) {
+        super(mem.getId(), mem.getName());
+        this.role = "casher";
+    }
+
     public Casher(String role) {
         super(role);
     }

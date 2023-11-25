@@ -4,36 +4,23 @@
  */
 package ViewAndController;
 
-import Model.Product;
-import Model.DAO.ProductDAO;
-import java.util.ArrayList;
-//import Model.ProductDetail;
-import javax.swing.JDialog;
-import javax.swing.table.DefaultTableModel;
+import Model.Casher;
+import Model.Member;
 
 /**
  *
  * @author binh
  */
-public class ProductManagementFrm extends javax.swing.JFrame {
+public class MainFrm extends javax.swing.JFrame {
 
     /**
-     * Creates new form ProductManagementFrm
+     * Creates new form main
      */
-    DefaultTableModel tableModel;
-    ArrayList<Product> Products;
+    Member mem;
 
-    public ProductManagementFrm() {
+    public MainFrm(Member mem) {
         initComponents();
-        tableModel = new DefaultTableModel();
-        tableModel.addColumn("STT");
-        tableModel.addColumn("Id");
-        tableModel.addColumn("Tên");
-        tableModel.addColumn("Mô tả");
-        tableModel.addColumn("Số lượng");
-
-        tblProduct.setModel(tableModel);
-        displayListProduct();
+        this.mem = mem;
     }
 
     /**
@@ -45,11 +32,9 @@ public class ProductManagementFrm extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        txtSearch = new javax.swing.JTextField();
-        btnSearch = new javax.swing.JButton();
-        btnAdd = new javax.swing.JButton();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        tblProduct = new javax.swing.JTable();
+        btnCustomerSatistic = new javax.swing.JButton();
+        btnProductManage = new javax.swing.JButton();
+        btnSale = new javax.swing.JButton();
         menuBar = new javax.swing.JMenuBar();
         fileMenu = new javax.swing.JMenu();
         openMenuItem = new javax.swing.JMenuItem();
@@ -67,37 +52,26 @@ public class ProductManagementFrm extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        btnSearch.setText("Search");
-        btnSearch.addActionListener(new java.awt.event.ActionListener() {
+        btnCustomerSatistic.setText("Thống kê khách hàng theo doanh thu");
+        btnCustomerSatistic.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnSearchActionPerformed(evt);
+                btnCustomerSatisticActionPerformed(evt);
             }
         });
 
-        btnAdd.setText("Add");
-        btnAdd.addActionListener(new java.awt.event.ActionListener() {
+        btnProductManage.setText("Quản lý sản phẩm");
+        btnProductManage.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnAddActionPerformed(evt);
+                btnProductManageActionPerformed(evt);
             }
         });
 
-        tblProduct.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
-            },
-            new String [] {
-                "STT", "Name", "Price", "Amount"
-            }
-        ));
-        tblProduct.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                tblProductMouseClicked(evt);
+        btnSale.setText("Thanh toán tại quầy");
+        btnSale.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSaleActionPerformed(evt);
             }
         });
-        jScrollPane1.setViewportView(tblProduct);
 
         fileMenu.setMnemonic('f');
         fileMenu.setText("File");
@@ -166,28 +140,24 @@ public class ProductManagementFrm extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 605, Short.MAX_VALUE)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(txtSearch)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnSearch))
-                    .addComponent(btnAdd, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap())
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(92, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(btnCustomerSatistic, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btnSale, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btnProductManage, javax.swing.GroupLayout.PREFERRED_SIZE, 229, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(89, 89, 89))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtSearch, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnSearch))
+                .addGap(28, 28, 28)
+                .addComponent(btnCustomerSatistic, javax.swing.GroupLayout.PREFERRED_SIZE, 66, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btnAdd)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 433, Short.MAX_VALUE))
+                .addComponent(btnSale, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btnProductManage, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(42, Short.MAX_VALUE))
         );
 
         pack();
@@ -197,41 +167,20 @@ public class ProductManagementFrm extends javax.swing.JFrame {
         System.exit(0);
     }//GEN-LAST:event_exitMenuItemActionPerformed
 
-    private void btnSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSearchActionPerformed
+    private void btnCustomerSatisticActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCustomerSatisticActionPerformed
         // TODO add your handling code here:
-        tableModel.setRowCount(0);
+        new CustomerStatisticByIncome().setVisible(true);
+    }//GEN-LAST:event_btnCustomerSatisticActionPerformed
 
-        Product p = new Product();
-        p.setName(txtSearch.getText());
-
-        Products = (ArrayList<Product>) ProductDAO.getInstance().GetListProductByName(p);
-        int stt = 0;
-        for (Product i : Products) {
-
-            Object[] dt = {++stt, i.getId(), i.getName(), i.getDescribe(), i.getAmount()};
-            tableModel.addRow(dt);
-        }
-    }//GEN-LAST:event_btnSearchActionPerformed
-
-    private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
-
-        JDialog jd = new AddProductDialog(this, true);
-        jd.setLocationRelativeTo(null);
-        jd.setVisible(true);
-    }//GEN-LAST:event_btnAddActionPerformed
-
-    private void tblProductMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblProductMouseClicked
+    private void btnSaleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaleActionPerformed
         // TODO add your handling code here:
+        new SaleFrm(new Casher(mem)).setVisible(true);
+    }//GEN-LAST:event_btnSaleActionPerformed
 
-//        Product a = new Product(1, "cafe trung nguyên", "cafe khá ngon");
-//        a.listProduct.add(new ProductDetail(1, Float.parseFloat("1.6"), "20/1/2023", 1000));
-        int row = tblProduct.getSelectedRow();
-        System.out.println("row selected is " + row);
-        JDialog jd = new ProductDetailDialog(this, true, Products.get(row));
-        jd.setLocationRelativeTo(null);
-        jd.setVisible(true);
-
-    }//GEN-LAST:event_tblProductMouseClicked
+    private void btnProductManageActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnProductManageActionPerformed
+        // TODO add your handling code here:
+        new ProductManagementFrm().setVisible(true);
+    }//GEN-LAST:event_btnProductManageActionPerformed
 
     /**
      * @param args the command line arguments
@@ -250,41 +199,30 @@ public class ProductManagementFrm extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(ProductManagementFrm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(MainFrm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(ProductManagementFrm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(MainFrm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(ProductManagementFrm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(MainFrm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(ProductManagementFrm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(MainFrm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new ProductManagementFrm().setVisible(true);
+                new MainFrm(new Member()).setVisible(true);
             }
         });
     }
 
-    private void displayListProduct() {
-        Products = (ArrayList<Product>) ProductDAO.getInstance().GetListProduct();
-//        Product a = new Product(1, "cafe trung nguyên", "cafe khá ngon",1000,Float.parseFloat("5.500"));
-//        a.listProduct.add(new ProductDetail(1, Float.parseFloat("1.6"), "20/1/2023", 1000));
-        int stt = 0;
-        for (Product i : Products) {
-
-            Object[] dt = {++stt, i.getId(), i.getName(), i.getDescribe(), i.getAmount()};
-            tableModel.addRow(dt);
-        }
-    }
-
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenuItem aboutMenuItem;
-    private javax.swing.JButton btnAdd;
-    private javax.swing.JButton btnSearch;
+    private javax.swing.JButton btnCustomerSatistic;
+    private javax.swing.JButton btnProductManage;
+    private javax.swing.JButton btnSale;
     private javax.swing.JMenuItem contentsMenuItem;
     private javax.swing.JMenuItem copyMenuItem;
     private javax.swing.JMenuItem cutMenuItem;
@@ -293,14 +231,11 @@ public class ProductManagementFrm extends javax.swing.JFrame {
     private javax.swing.JMenuItem exitMenuItem;
     private javax.swing.JMenu fileMenu;
     private javax.swing.JMenu helpMenu;
-    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JMenuBar menuBar;
     private javax.swing.JMenuItem openMenuItem;
     private javax.swing.JMenuItem pasteMenuItem;
     private javax.swing.JMenuItem saveAsMenuItem;
     private javax.swing.JMenuItem saveMenuItem;
-    private javax.swing.JTable tblProduct;
-    private javax.swing.JTextField txtSearch;
     // End of variables declaration//GEN-END:variables
 
 }
